@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "8080:80"
+    depends_on:
+      - app
+
+  app:
+    image: node:18
+    working_dir: /app
+    command: sh -c "npm install express && node server.js"
+    volumes:
+      - ./app:/app
+    ports:
+      - "3000:3000"
+
+  redis:
+    image: redis:latest
+
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: devops
+      POSTGRES_PASSWORD: devops
+      POSTGRES_DB: devopsdb
